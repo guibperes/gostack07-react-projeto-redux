@@ -4,6 +4,7 @@ import { MdAddShoppingCart } from 'react-icons/md'
 
 import { api } from '../../services/api'
 import { formatPrice } from '../../utils/format'
+import { addToCart } from '../../store/cart/actions'
 import { ProductList } from './styles'
 
 export function Home () {
@@ -24,13 +25,6 @@ export function Home () {
     handleEffect()
   }, [])
 
-  function handleProductAdd (product) {
-    dispatch({
-      type: 'ADD_TO_CART',
-      product
-    })
-  }
-
   return (
     <ProductList>
       {products.map(product => (
@@ -39,7 +33,7 @@ export function Home () {
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
 
-          <button type='button' onClick={() => handleProductAdd(product)}>
+          <button type='button' onClick={() => dispatch(addToCart(product))}>
             <div>
               <MdAddShoppingCart color='#FFF' size={16} />
             3
