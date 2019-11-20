@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { MdRemoveCircleOutline, MdAddCircleOutline, MdDelete } from 'react-icons/md'
 
-import { removeFromCart } from '../../store/cart/actions'
+import { removeFromCart, updateAmount } from '../../store/cart/actions'
 import { Container, ProductTable, Total } from './styles'
 
 export function Cart () {
@@ -33,11 +33,21 @@ export function Cart () {
               </td>
               <td>
                 <div>
-                  <button type='button'>
+                  <button
+                    type='button'
+                    onClick={() =>
+                      dispatch(updateAmount(product.id, product.amount - 1))
+                    }
+                  >
                     <MdRemoveCircleOutline color='#7159C1' size={20} />
                   </button>
                   <input type='number' readOnly value={product.amount} />
-                  <button type='button'>
+                  <button
+                    type='button'
+                    onClick={() =>
+                      dispatch(updateAmount(product.id, product.amount + 1))
+                    }
+                  >
                     <MdAddCircleOutline color='#7159C1' size={20} />
                   </button>
                 </div>
