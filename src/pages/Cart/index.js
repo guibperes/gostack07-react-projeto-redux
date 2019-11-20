@@ -2,12 +2,23 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { MdRemoveCircleOutline, MdAddCircleOutline, MdDelete } from 'react-icons/md'
 
+import { formatPrice } from '../../utils/format'
 import { removeFromCart, updateAmount } from '../../store/cart/actions'
 import { Container, ProductTable, Total } from './styles'
 
 export function Cart () {
   const dispatch = useDispatch()
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector(state => state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount)
+  })))
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce((total, product) =>
+        total + product.price * product.amount
+      , 0)
+    )
+  )
 
   return (
     <Container>
@@ -53,7 +64,7 @@ export function Cart () {
                 </div>
               </td>
               <td>
-                <strong>R$258,80</strong>
+                <strong>{product.subtotal}</strong>
               </td>
               <td>
                 <button
@@ -74,7 +85,7 @@ export function Cart () {
         <button type='button'>Finalizar pedido</button>
         <Total>
           <span>TOTAL</span>
-          <strong>R$1024,00</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
