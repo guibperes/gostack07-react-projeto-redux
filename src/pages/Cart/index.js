@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { MdRemoveCircleOutline, MdAddCircleOutline, MdDelete } from 'react-icons/md'
 
 import { Container, ProductTable, Total } from './styles'
 
 export function Cart () {
+  const cart = useSelector(state => state.cart)
+
   return (
     <Container>
       <ProductTable>
@@ -17,34 +20,36 @@ export function Cart () {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <img src='https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg' alt='produto' />
-            </td>
-            <td>
-              <strong>Tênis top</strong>
-              <span>R$129,90</span>
-            </td>
-            <td>
-              <div>
+          {cart.map(product => (
+            <tr key={product.id}>
+              <td>
+                <img src={product.image} alt={product.id} />
+              </td>
+              <td>
+                <strong>{product.title}</strong>
+                <span>{product.priceFormatted}</span>
+              </td>
+              <td>
+                <div>
+                  <button type='button'>
+                    <MdRemoveCircleOutline color='#7159C1' size={20} />
+                  </button>
+                  <input type='number' readOnly value={product.amount} />
+                  <button type='button'>
+                    <MdAddCircleOutline color='#7159C1' size={20} />
+                  </button>
+                </div>
+              </td>
+              <td>
+                <strong>R$258,80</strong>
+              </td>
+              <td>
                 <button type='button'>
-                  <MdRemoveCircleOutline color='#7159C1' size={20} />
+                  <MdDelete color='#7159C1' size={20} />
                 </button>
-                <input type='number' readOnly value={1} />
-                <button type='button'>
-                  <MdAddCircleOutline color='#7159C1' size={20} />
-                </button>
-              </div>
-            </td>
-            <td>
-              <strong>R$258,80</strong>
-            </td>
-            <td>
-              <button type='button'>
-                <MdDelete color='#7159C1' size={20} />
-              </button>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </ProductTable>
 

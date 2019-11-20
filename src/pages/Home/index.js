@@ -16,7 +16,7 @@ export function Home () {
 
       const data = response.data.map(product => ({
         ...product,
-        price: formatPrice(product.price)
+        priceFormatted: formatPrice(product.price)
       }))
 
       setProducts(data)
@@ -37,7 +37,7 @@ export function Home () {
         <li key={product.id}>
           <img src={product.image} alt={product.id} />
           <strong>{product.title}</strong>
-          <span>{product.price}</span>
+          <span>{product.priceFormatted}</span>
 
           <button type='button' onClick={() => handleProductAdd(product)}>
             <div>
